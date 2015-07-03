@@ -4,8 +4,8 @@ HOST = '192.168.7.2'  # Remote host
 # HOST = '192.168.0.111'  # Remote host
 # HOST = '192.168.0.2'    # Remote host
 PORT = 54321            # Remote port
-N_BUFFER = 50
-MSG_SIZE = 999*1024
+N_BUFFER = 1
+MSG_SIZE = 936*1024
 
 
 def substr_iter(data, length):

@@ -1,6 +1,6 @@
 ; Buffer
-MSG_SIZE            .set    928*1024
-LOOPS_PER_MSG       .set    MSG_SIZE/116
+MSG_SIZE            .set    936*1024
+LOOPS_PER_MSG       .set    MSG_SIZE/104
 
 ; Interrupt
 PRU_INT_VALID       .set    32

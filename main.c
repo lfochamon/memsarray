@@ -12,9 +12,9 @@
 #include "server/tcpServer.h"
 #include "pru/pru.h"
 
-#define MSG_SIZE (928*1024)
+#define MSG_SIZE (936*1024)
 #define HANDSHAKE_SIZE 5
-#define N_BUFFER 50
+#define N_BUFFER 1
 
 #define PRU0 0
 #define PRU1 1
