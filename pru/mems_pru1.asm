@@ -34,14 +34,6 @@ NOP .macro
     .endm
 
 
-CLK_WAIT    .macro  clk_wait_delay
-                LDI32   r29, clk_wait_delay
-                SUB     r29, r29, 1
-delay?:         SUB     r29, r29, 1
-                QBNE    delay?, r29, 0
-            .endm
-
-
 LBIT    .macro  lbit_reg1, lbit_bit1, lbit_reg2, lbit_bit2
             QBBS    high?, lbit_reg1, lbit_bit1
             CLR     lbit_reg2, lbit_reg2, lbit_bit2
@@ -56,31 +48,39 @@ MEMS_READ_BYTE  .macro  mems_read_byte_reg, mems_read_byte_finish_early
                     SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
                     LBIT        r31, MIC1, mems_read_byte_reg, 7    ; Load MIC1 data (3 clocks)
                     LBIT        r31, MIC2, mems_read_byte_reg, 6    ; Load MIC2 data (3 clocks)
-                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-3-3-1 - 1            ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
                     CLR         r30, r30, CLK                       ; CLK down
-                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-1 - 1                ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
 
                     SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
                     LBIT        r31, MIC1, mems_read_byte_reg, 5    ; Load MIC1 data (3 clocks)
                     LBIT        r31, MIC2, mems_read_byte_reg, 4    ; Load MIC2 data (3 clocks)
-                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-3-3-1 - 1            ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
                     CLR         r30, r30, CLK                       ; CLK down
-                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-1 - 1                ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
 
                     SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
                     LBIT        r31, MIC1, mems_read_byte_reg, 3    ; Load MIC1 data (3 clocks)
                     LBIT        r31, MIC2, mems_read_byte_reg, 2    ; Load MIC2 data (3 clocks)
-                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-3-3-1 - 1            ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
                     CLR         r30, r30, CLK                       ; CLK down
-                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-1 - 1                ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
 
                     SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
                     LBIT        r31, MIC1, mems_read_byte_reg, 1    ; Load MIC1 data (3 clocks)
                     LBIT        r31, MIC2, mems_read_byte_reg, 0    ; Load MIC2 data (3 clocks)
-                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-3-3-1 - 1            ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
                     CLR         r30, r30, CLK                       ; CLK down
 
-                    CLK_WAIT    CLK_DELAY-1-mems_read_byte_finish_early ; Wait to meet timing
+                    LDI32       r29, CLK_DELAY-1-mems_read_byte_finish_early - 1    ; Call wait function to meet timing
+                    JAL         r28.w0, clk_wait
                 .endm
 
 
@@ -147,5 +147,11 @@ mainloop:
 
     JMP mainloop        ; [TODO]: make loop conditional
 
-; Stop PRU
+; Stop PRU (unreachable)
     HALT
+
+; Do 'LDI32 r29, clk_wait_delay-1' before calling
+clk_wait:
+    SUB     r29, r29, 1
+    QBNE    clk_wait, r29, 0
+    JMP r28.w0                  ; Return
