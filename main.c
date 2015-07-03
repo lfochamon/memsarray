@@ -78,6 +78,8 @@ int main(int argc, char *argv[]){
 
     int n, clientSocket;
 
+    FILE *fp_buf;
+
 
     /* PRU code only works if executed as root */
     if(getuid() != 0){
@@ -187,6 +189,10 @@ int main(int argc, char *argv[]){
         prussdrv_pru_clear_event(PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
         sendall(clientSocket, ram_addr + MSG_SIZE, MSG_SIZE);
     }
+
+    fp_buf = fopen("buf.txt", "w");
+    fwrite(ram_addr, sizeof(uint32_t), 2*MSG_SIZE/4, fp_buf);
+    fclose(fp_buf);
 
 
     /* PRU CLEAN UP */
