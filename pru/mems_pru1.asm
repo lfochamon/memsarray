@@ -35,7 +35,7 @@ NOP .macro
 
 
 CLK_WAIT    .macro  clk_wait_delay
-                LDI32   r29, spi_wait_delay
+                LDI32   r29, clk_wait_delay
                 SUB     r29, r29, 1
 delay?:         SUB     r29, r29, 1
                 QBNE    delay?, r29, 0
@@ -53,51 +53,59 @@ end?:
 
 
 MEMS_READ_BYTE  .macro  mems_read_byte_reg, mems_read_byte_finish_early
-    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
-    LBIT        r31, MIC1, mems_read_byte_reg, 7    ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, mems_read_byte_reg, 6    ; Load MIC2 data (3 clocks)
-    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
-    CLR         r30, r30, CLK                       ; CLK down
-    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
+                    LBIT        r31, MIC1, mems_read_byte_reg, 7    ; Load MIC1 data (3 clocks)
+                    LBIT        r31, MIC2, mems_read_byte_reg, 6    ; Load MIC2 data (3 clocks)
+                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    CLR         r30, r30, CLK                       ; CLK down
+                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
 
-    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
-    LBIT        r31, MIC1, mems_read_byte_reg, 5    ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, mems_read_byte_reg, 4    ; Load MIC2 data (3 clocks)
-    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
-    CLR         r30, r30, CLK                       ; CLK down
-    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
+                    LBIT        r31, MIC1, mems_read_byte_reg, 5    ; Load MIC1 data (3 clocks)
+                    LBIT        r31, MIC2, mems_read_byte_reg, 4    ; Load MIC2 data (3 clocks)
+                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    CLR         r30, r30, CLK                       ; CLK down
+                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
 
-    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
-    LBIT        r31, MIC1, mems_read_byte_reg, 3    ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, mems_read_byte_reg, 2    ; Load MIC2 data (3 clocks)
-    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
-    CLR         r30, r30, CLK                       ; CLK down
-    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
+                    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
+                    LBIT        r31, MIC1, mems_read_byte_reg, 3    ; Load MIC1 data (3 clocks)
+                    LBIT        r31, MIC2, mems_read_byte_reg, 2    ; Load MIC2 data (3 clocks)
+                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    CLR         r30, r30, CLK                       ; CLK down
+                    CLK_WAIT    CLK_DELAY-1                         ; Wait to meet timing
 
-    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
-    LBIT        r31, MIC1, mems_read_byte_reg, 1    ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, mems_read_byte_reg, 0    ; Load MIC2 data (3 clocks)
-    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
-    CLR         r30, r30, CLK                       ; CLK down
+                    SET         r30, r30, CLK                       ; CLK = 1 (1 clock)
+                    LBIT        r31, MIC1, mems_read_byte_reg, 1    ; Load MIC1 data (3 clocks)
+                    LBIT        r31, MIC2, mems_read_byte_reg, 0    ; Load MIC2 data (3 clocks)
+                    CLK_WAIT    CLK_DELAY-3-3-1                     ; Wait to meet timing
+                    CLR         r30, r30, CLK                       ; CLK down
 
-    CLK_WAIT    CLK_DELAY-1-mems_read_byte_finish_early ; Wait to meet timing
-.endm
+                    CLK_WAIT    CLK_DELAY-1-mems_read_byte_finish_early ; Wait to meet timing
+                .endm
 
 
 MEMS_READ_FULLREG   .macro  mems_read_fullreg_reg
-    MEMS_READ_BYTE :mems_read_fullreg_reg:.b0, 0
-    MEMS_READ_BYTE :mems_read_fullreg_reg:.b1, 0
-    MEMS_READ_BYTE :mems_read_fullreg_reg:.b2, 0
-    MEMS_READ_BYTE :mems_read_fullreg_reg:.b3, 0
-.endm
+                        MEMS_READ_BYTE :mems_read_fullreg_reg:.b0, 0
+                        MEMS_READ_BYTE :mems_read_fullreg_reg:.b1, 0
+                        MEMS_READ_BYTE :mems_read_fullreg_reg:.b2, 0
+                        MEMS_READ_BYTE :mems_read_fullreg_reg:.b3, 0
+                    .endm
 
 
 ;*******************
 ; MEMS main program
 ;*******************
 
+; Code starts here
+    .text
+    .retain
+    .retainrefs
+    .global         main
+
+
+main:
 ; Clear clock pin
-CLR r30, r30, CLK
+    CLR r30, r30, CLK
 
 ; Start of main loop
 mainloop:
@@ -128,7 +136,7 @@ mainloop:
     MEMS_READ_FULLREG r25
     MEMS_READ_FULLREG r26
 
-    ; REG29 by hand to allow for the data transfer and loop instructions
+    ; r26 by hand to allow for the data transfer and loop instructions
     MEMS_READ_BYTE r26.b0, 0
     MEMS_READ_BYTE r26.b1, 0
     MEMS_READ_BYTE r26.b2, 0
@@ -140,4 +148,4 @@ mainloop:
     JMP mainloop        ; [TODO]: make loop conditional
 
 ; Stop PRU
-HALT
+    HALT
