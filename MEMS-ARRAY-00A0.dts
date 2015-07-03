@@ -29,8 +29,8 @@
             pru_pru_pins: pinmux_pru_pru_pins {   // PRU pin settings
                 pinctrl-single,pins = <
                     0x0b4 0x05    /* PRU1_5, P8_42, MODE 5, OUTPUT */
-                    0x0ac 0x26    /* PRU1_3, P8_44, MODE 6, INPUT  */
-                    0x0a4 0x26    /* PRU1_1, P8_46, MODE 6, INPUT  */
+                    0x0ac 0x2E    /* PRU1_3, P8_44, MODE 6, INPUT, NO PULL UP/DOWN */
+                    0x0a4 0x2E    /* PRU1_1, P8_46, MODE 6, INPUT, NO PULL UP/DOWN */
                 >;
             };
         };
