@@ -45,25 +45,25 @@ end?:
 
 
 MEMS_READ_REG   .macro  mems_read_fullreg_reg
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b3, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b3, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b2, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b2, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b1, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b1, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b0, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b0, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
     .endm
 
 
