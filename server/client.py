@@ -23,10 +23,8 @@ sock.connect((HOST, PORT))
 # Handshake with server
 sock.send(b"Ready")
 
-integrity = 0
-grand_total = 0
+full = []
 for i in range(0, 2*N_BUFFER):
-    full = []
     total = 0
     while total < MSG_SIZE:
         try:
@@ -38,15 +36,34 @@ for i in range(0, 2*N_BUFFER):
             sock.close()
             sys.exit(-1)
 
-    full = b"".join(full)
-    grand_total = grand_total + total
-
-    if all(idx % 24 == int.from_bytes(c, 'little') for idx, c in substr_iter(full, 4)):
-        integrity = integrity + 1
-
 # Close socket
 sock.close()
 
-print("The client received", grand_total/(1024*1024), "MB from the server.")
+# print("The client received", len(full)/(1024*1024), "MB from the server.")
 
-print(integrity, "messages passed the integrity check")
+full = b"".join(full)
+
+fullout = open('full.txt', 'wb')
+fullout.write(full)
+fullout.close()
+
+mic1 = []
+mic2 = []
+for idx, word in substr_iter(full, 4):
+    in_bytes = int.from_bytes(word, 'little')
+    bits = bin(in_bytes).lstrip("0b")
+    bits = "0"*(32-len(bits)) + bits
+
+    mic1.extend([ bits[i] for i in range(0, 31, 2)  ])
+    mic2.extend([ bits[i] for i in range(1, 31, 2)  ])
+
+mic1 = ",".join(mic1)
+mic2 = ",".join(mic2)
+
+mic1out = open('mic1.txt', 'w')
+mic1out.write(mic1)
+mic1out.close()
+
+mic2out = open('mic2.txt', 'w')
+mic2out.write(mic2)
+mic2out.close()
