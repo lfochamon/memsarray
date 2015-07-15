@@ -54,8 +54,6 @@ int main(int argc, char *argv[]){
 
     uint32_t *pru0_mem;
 
-    int n;
-
     FILE *fp_buf;
 
 
@@ -100,7 +98,6 @@ int main(int argc, char *argv[]){
     if(pru_setup() != 0) {
         printf("Error setting up the PRU.\n");
         pru_cleanup();
-        close(clientSocket);
         munmap(mem_map, RAM_SIZE);
         exit(EXIT_FAILURE);
     }
@@ -114,7 +111,6 @@ int main(int argc, char *argv[]){
     /* Start up PRU0 */
     if (pru_start(PRU0, "pru/mems_pru0.bin") != 0) {
         fprintf(stderr, "Error starting PRU0.\n");
-        close(clientSocket);
         pru_cleanup();
         munmap(mem_map, RAM_SIZE);
         exit(EXIT_FAILURE);
@@ -123,7 +119,6 @@ int main(int argc, char *argv[]){
     /* Start up PRU1 */
     if (pru_start(PRU1, "pru/mems_pru1.bin") != 0) {
         fprintf(stderr, "Error starting PRU1.\n");
-        close(clientSocket);
         pru_cleanup();
         munmap(mem_map, RAM_SIZE);
         exit(EXIT_FAILURE);
@@ -148,10 +143,6 @@ int main(int argc, char *argv[]){
     pru_stop(PRU1);
     pru_stop(PRU0);
     pru_cleanup();
-
-    /* SERVER CLEAN UP */
-    close(clientSocket);
-    printf("Closing stream server.\n");
 
     /* SHARED RAM CLEAN UP */
     if(munmap(mem_map, RAM_SIZE) == -1) {
