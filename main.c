@@ -45,28 +45,6 @@ int getMemInfo(unsigned int *addr, unsigned int *size){
 }
 
 
-/* Handshake with client */
-int client_handshake(int clientSocket){
-    char readBuffer[HANDSHAKE_SIZE + 1];
-
-    /* Clear receive buffer */
-    memset(readBuffer, '\0', HANDSHAKE_SIZE + 1);
-
-    /* Wait for client handshake */
-    receiveData(clientSocket, readBuffer, HANDSHAKE_SIZE);
-    while(strcmp(readBuffer, "") == 0){
-        receiveData(clientSocket, readBuffer, HANDSHAKE_SIZE);
-    }
-
-    /* Check handshake content */
-    if(strcmp(readBuffer, "Ready") != 0){
-        return(-1);
-    }
-
-    return(0);
-}
-
-
 int main(int argc, char *argv[]){
     int i;
 
@@ -76,7 +54,7 @@ int main(int argc, char *argv[]){
 
     uint32_t *pru0_mem;
 
-    int n, clientSocket;
+    int n;
 
     FILE *fp_buf;
 
@@ -118,33 +96,6 @@ int main(int argc, char *argv[]){
     ram_addr = mem_map + (addr & PAGE_MASK);
 
 
-    /***** SERVER SET UP *****/
-    /* Open TCP socket */
-    printf("Starting server to listen on port %d... ", PORT);
-    fflush(stdout);
-    clientSocket = getClientSocket();
-    printf("done.\n");
-
-    /* Attempt to improve performance */
-    n = 1;
-    if(setsockopt(clientSocket, IPPROTO_TCP, TCP_NODELAY, &n, sizeof(int)) == -1){
-        perror("Error setting TCP_NODELAY socket option. Will try to go on anyway...\n");
-    }
-
-    /* Handshake with client */
-    printf("Client handshake... ");
-    fflush(stdout);
-
-    if(client_handshake(clientSocket) != 0) {
-        printf("error.");
-        close(clientSocket);
-        munmap(mem_map, RAM_SIZE);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("done!\n");
-    }
-
-
     /***** PRU SET UP *****/
     if(pru_setup() != 0) {
         printf("Error setting up the PRU.\n");
@@ -182,12 +133,10 @@ int main(int argc, char *argv[]){
         /* Wait for PRU_EVTOUT_0 and send shared RAM data */
         prussdrv_pru_wait_event(PRU_EVTOUT_0);
         prussdrv_pru_clear_event(PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-        sendall(clientSocket, ram_addr, MSG_SIZE);
 
         /* Wait for PRU_EVTOUT_0 and send shared RAM data */
         prussdrv_pru_wait_event(PRU_EVTOUT_0);
         prussdrv_pru_clear_event(PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-        sendall(clientSocket, ram_addr + MSG_SIZE, MSG_SIZE);
     }
 
     fp_buf = fopen("buf.txt", "w");
