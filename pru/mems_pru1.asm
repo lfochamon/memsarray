@@ -122,7 +122,7 @@ mainloop:
 
     JAL     r27.w0, mems_read_byte      ; Call mems_read_byte (2 clock)
     MOV     r26.b2, r27.b2              ; Save byte (1 clock)
-    LDI32   r29, CLK_DELAY-4           ; Call wait function (2 clocks)
+    LDI32   r29, CLK_DELAY-4            ; Call wait function (2 clocks)
     JAL     r28.w0, clk_wait
 
     JAL     r27.w0, mems_read_byte      ; Call mems_read_byte (2 clock)
