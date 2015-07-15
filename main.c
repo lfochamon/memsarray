@@ -81,6 +81,8 @@ int main(int argc, char *argv[]){
     /* Map shared RAM */
     mem_map = mmap(0, RAM_BYTES, PROT_READ, MAP_SHARED, fd, addr & ~PAGE_MASK);
 
+    printf("RAM buffer allocated\n");
+
     /* Close file descriptor (not needed after memory mapping) */
     close(fd);
 
@@ -108,6 +110,8 @@ int main(int argc, char *argv[]){
 
 
     /***** BEGIN MAIN PROGRAM *****/
+    printf("Start PRUs\n");
+
     /* Start up PRU0 */
     if (pru_start(PRU0, "pru/mems_pru0.bin") != 0) {
         fprintf(stderr, "Error starting PRU0.\n");
@@ -134,15 +138,16 @@ int main(int argc, char *argv[]){
         prussdrv_pru_clear_event(PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
     }
 
-    fp_buf = fopen("buf.txt", "w");
-    fwrite(ram_addr, sizeof(uint32_t), 2*MSG_SIZE/4, fp_buf);
-    fclose(fp_buf);
-
-
     /* PRU CLEAN UP */
     pru_stop(PRU1);
     pru_stop(PRU0);
     pru_cleanup();
+
+    printf("Dump buffer\n");
+
+    fp_buf = fopen("buff", "w");
+    fwrite(ram_addr, sizeof(uint32_t), 2*MSG_SIZE/4, fp_buf);
+    fclose(fp_buf);
 
     /* SHARED RAM CLEAN UP */
     if(munmap(mem_map, RAM_SIZE) == -1) {
