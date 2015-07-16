@@ -89,15 +89,20 @@ int main(int argc, char *argv[]){
 
 
     /***** SHARED RAM SETUP *****/
+    printf("Allocating RAM buffer... ");
+    fflush(stdout);
+
     /* Get shared RAM information */
     getMemInfo(&addr, &size);
     if(size < BUFFER_SIZE) {
+        printf("error.\n");
         fprintf(stderr, "External RAM pool must be at least %d bytes.\n", BUFFER_SIZE);
         exit(EXIT_FAILURE);
     }
 
     /* Get access to device memory */
     if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1){
+        printf("error.\n");
         perror("Failed to open memory!");
         exit(EXIT_FAILURE);
     }
@@ -109,6 +114,7 @@ int main(int argc, char *argv[]){
     close(fd);
 
     if(mem_map == (void *) -1) {
+        printf("error.\n");
         perror("Failed to map base address");
         close(fd);
         exit(EXIT_FAILURE);
@@ -117,13 +123,15 @@ int main(int argc, char *argv[]){
     /* Memory mapping must be page aligned */
     ram_addr = mem_map + (addr & PAGE_MASK);
 
+    printf("OK!\n");
+
 
     /***** SERVER SET UP *****/
     /* Open TCP socket */
     printf("Starting server to listen on port %d... ", PORT);
     fflush(stdout);
     clientSocket = getClientSocket();
-    printf("done.\n");
+    printf("OK!\n");
 
     /* Attempt to improve performance */
     n = 1;
@@ -136,18 +144,20 @@ int main(int argc, char *argv[]){
     fflush(stdout);
 
     if(client_handshake(clientSocket) != 0) {
-        printf("error.");
+        printf("error.\n");
         close(clientSocket);
         munmap(mem_map, RAM_SIZE);
         exit(EXIT_FAILURE);
     } else {
-        printf("done!\n");
+        printf("OK!\n");
     }
 
 
     /***** PRU SET UP *****/
+    printf("Setting up PRUs... ");
     if(pru_setup() != 0) {
-        printf("Error setting up the PRU.\n");
+        printf("error.\n");
+        fprintf(stderr, "Error setting up the PRU.\n");
         pru_cleanup();
         close(clientSocket);
         munmap(mem_map, RAM_SIZE);
@@ -158,8 +168,12 @@ int main(int argc, char *argv[]){
     pru_mmap(0, &pru0_mem);
     *(pru0_mem) = addr;
 
+    printf("OK!\n");
+
 
     /***** BEGIN MAIN PROGRAM *****/
+    printf("Starting main program.\n");
+
     /* Start up PRU0 */
     if (pru_start(PRU0, "pru/mems_pru0.bin") != 0) {
         fprintf(stderr, "Error starting PRU0.\n");
@@ -190,19 +204,21 @@ int main(int argc, char *argv[]){
         sendall(clientSocket, ram_addr + MSG_SIZE, MSG_SIZE);
     }
 
-    fp_buf = fopen("buf.txt", "w");
-    fwrite(ram_addr, sizeof(uint32_t), 2*MSG_SIZE/4, fp_buf);
-    fclose(fp_buf);
-
 
     /* PRU CLEAN UP */
+    printf("\nStopping PRUs.\n");
     pru_stop(PRU1);
     pru_stop(PRU0);
     pru_cleanup();
 
+    printf("Dumpping buffer.\n");
+    fp_buf = fopen("buf.txt", "w");
+    fwrite(ram_addr, sizeof(uint32_t), 2*MSG_SIZE/4, fp_buf);
+    fclose(fp_buf);
+
     /* SERVER CLEAN UP */
-    close(clientSocket);
     printf("Closing stream server.\n");
+    close(clientSocket);
 
     /* SHARED RAM CLEAN UP */
     if(munmap(mem_map, RAM_SIZE) == -1) {

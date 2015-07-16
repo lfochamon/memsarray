@@ -44,6 +44,7 @@ int getClientSocket(){
 
   // Listen on port until connection from a client socket
   if (listen(serverSocket, BACKLOG) == -1) {
+	printf("error.\n");
     perror("Error while listening on socket");
     exit(EXIT_FAILURE);
   }
@@ -53,6 +54,7 @@ int getClientSocket(){
   clientSocket = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientLength);
 
   if (clientSocket < 0){
+  	printf("error.\n");
     perror("Failed to bind the client socket properly\n");
     exit(EXIT_FAILURE);
   }
