@@ -43,27 +43,6 @@ sock.close()
 
 full = b"".join(full)
 
-fullout = open('full.txt', 'wb')
+fullout = open('buff', 'wb')
 fullout.write(full)
 fullout.close()
-
-mic1 = []
-mic2 = []
-for idx, word in substr_iter(full, 4):
-    in_bytes = int.from_bytes(word, 'little')
-    bits = bin(in_bytes).lstrip("0b")
-    bits = "0"*(32-len(bits)) + bits
-
-    mic1.extend([ bits[i] for i in range(0, 31, 2)  ])
-    mic2.extend([ bits[i] for i in range(1, 31, 2)  ])
-
-mic1 = ",".join(mic1)
-mic2 = ",".join(mic2)
-
-mic1out = open('mic1.txt', 'w')
-mic1out.write(mic1)
-mic1out.close()
-
-mic2out = open('mic2.txt', 'w')
-mic2out.write(mic2)
-mic2out.close()
