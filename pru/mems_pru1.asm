@@ -162,11 +162,10 @@ clk_wait:
 ; r27.w0    return address
 mems_read_byte:
     CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
-    LDI32       r29, 2                      ; Wait 35 ns (7 instructions)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
     JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 7        ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, r27.b2, 6        ; Load MIC2 data (3 clocks)
-    LDI32       r29, CLK_DELAY-11           ; Call wait function (2 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
     NOP
     SET         r30, r30, CLK               ; CLK = 0 (1 clock)
@@ -175,11 +174,22 @@ mems_read_byte:
     NOP
 
     CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
-    LDI32       r29, 2                      ; Wait 35 ns (7 instructions)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
+    LBIT        r31, MIC1, r27.b2, 6        ; Load MIC1 data (3 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
     JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 5        ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, r27.b2, 4        ; Load MIC2 data (3 clocks)
-    LDI32       r29, CLK_DELAY-11           ; Call wait function (2 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
     NOP
     SET         r30, r30, CLK               ; CLK = 0 (1 clock)
@@ -188,11 +198,22 @@ mems_read_byte:
     NOP
 
     CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
-    LDI32       r29, 2                      ; Wait 35 ns (7 instructions)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
+    LBIT        r31, MIC1, r27.b2, 4        ; Load MIC1 data (3 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
     JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 3        ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, r27.b2, 2        ; Load MIC2 data (3 clocks)
-    LDI32       r29, CLK_DELAY-11           ; Call wait function (2 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
     NOP
     SET         r30, r30, CLK               ; CLK = 0 (1 clock)
@@ -201,11 +222,34 @@ mems_read_byte:
     NOP
 
     CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
-    LDI32       r29, 2                      ; Wait 35 ns (7 instructions)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
+    LBIT        r31, MIC1, r27.b2, 2        ; Load MIC1 data (3 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
     JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 1        ; Load MIC1 data (3 clocks)
-    LBIT        r31, MIC2, r27.b2, 0        ; Load MIC2 data (3 clocks)
-    LDI32       r29, CLK_DELAY-11           ; Call wait function (2 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
+    JAL         r28.w0, clk_wait
+    NOP
+
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
+    LBIT        r31, MIC1, r27.b2, 0        ; Load MIC1 data (3 clocks)
+    LDI32       r29, CLK_DELAY-5           ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
     SET         r30, r30, CLK               ; CLK = 0 (1 clock)
 
