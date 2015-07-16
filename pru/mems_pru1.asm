@@ -44,26 +44,26 @@ end?:
         .endm
 
 
-MEMS_READ_FULLREG   .macro  mems_read_fullreg_reg
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b3, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+MEMS_READ_REG   .macro  mems_read_fullreg_reg
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b3, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b2, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b2, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b1, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b1, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
 
-        JAL r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
-        MOV :mems_read_fullreg_reg:.b0, r27.b2  ; Save byte (1 clock)
-        LDI32       r29, CLK_DELAY-4        ; Call wait function (2 clocks)
-        JAL         r28.w0, clk_wait
+        JAL     r27.w0, mems_read_byte              ; Call mems_read_byte (2 clock)
+        MOV     :mems_read_fullreg_reg:.b0, r27.b2  ; Save byte (1 clock)
+        LDI32   r29, CLK_DELAY-4                    ; Call wait function (2 clocks)
+        JAL     r28.w0, clk_wait
     .endm
 
 
@@ -80,7 +80,7 @@ MEMS_READ_FULLREG   .macro  mems_read_fullreg_reg
 
 main:
 ; Clear clock pin
-    CLR r30, r30, CLK
+    SET r30, r30, CLK
 
 ; Call wait function
     LDI32       r29, CLK_DELAY
@@ -88,31 +88,31 @@ main:
 
 ; Start of main loop
 mainloop:
-    MEMS_READ_FULLREG r1
-    MEMS_READ_FULLREG r2
-    MEMS_READ_FULLREG r3
-    MEMS_READ_FULLREG r4
-    MEMS_READ_FULLREG r5
-    MEMS_READ_FULLREG r6
-    MEMS_READ_FULLREG r7
-    MEMS_READ_FULLREG r8
-    MEMS_READ_FULLREG r9
-    MEMS_READ_FULLREG r10
-    MEMS_READ_FULLREG r11
-    MEMS_READ_FULLREG r12
-    MEMS_READ_FULLREG r13
-    MEMS_READ_FULLREG r14
-    MEMS_READ_FULLREG r15
-    MEMS_READ_FULLREG r16
-    MEMS_READ_FULLREG r17
-    MEMS_READ_FULLREG r18
-    MEMS_READ_FULLREG r19
-    MEMS_READ_FULLREG r20
-    MEMS_READ_FULLREG r21
-    MEMS_READ_FULLREG r22
-    MEMS_READ_FULLREG r23
-    MEMS_READ_FULLREG r24
-    MEMS_READ_FULLREG r25
+    MEMS_READ_REG r1
+    MEMS_READ_REG r2
+    MEMS_READ_REG r3
+    MEMS_READ_REG r4
+    MEMS_READ_REG r5
+    MEMS_READ_REG r6
+    MEMS_READ_REG r7
+    MEMS_READ_REG r8
+    MEMS_READ_REG r9
+    MEMS_READ_REG r10
+    MEMS_READ_REG r11
+    MEMS_READ_REG r12
+    MEMS_READ_REG r13
+    MEMS_READ_REG r14
+    MEMS_READ_REG r15
+    MEMS_READ_REG r16
+    MEMS_READ_REG r17
+    MEMS_READ_REG r18
+    MEMS_READ_REG r19
+    MEMS_READ_REG r20
+    MEMS_READ_REG r21
+    MEMS_READ_REG r22
+    MEMS_READ_REG r23
+    MEMS_READ_REG r24
+    MEMS_READ_REG r25
 
     ; r26 by hand to allow for the data transfer and loop instructions
     JAL     r27.w0, mems_read_byte      ; Call mems_read_byte (2 clock)
@@ -122,7 +122,7 @@ mainloop:
 
     JAL     r27.w0, mems_read_byte      ; Call mems_read_byte (2 clock)
     MOV     r26.b2, r27.b2              ; Save byte (1 clock)
-    LDI32   r29, CLK_DELAY-4           ; Call wait function (2 clocks)
+    LDI32   r29, CLK_DELAY-4            ; Call wait function (2 clocks)
     JAL     r28.w0, clk_wait
 
     JAL     r27.w0, mems_read_byte      ; Call mems_read_byte (2 clock)
@@ -136,7 +136,7 @@ mainloop:
     XOUT    XFR_BANK0, &r1, 104                         ; Save to scratch pad (1 clock)
     LDI     r31.b0, PRU_INT_VALID + PRU1_PRU0_INTERRUPT ; Signal PRU0 (1 clock)
 
-    LDI32   r29, CLK_DELAY-6            ; Call wait function (2 clocks)
+    LDI32   r29, CLK_DELAY-5            ; Call wait function (2 clocks)
     JAL     r28.w0, clk_wait
 
     JMP mainloop        ; [TODO]: make loop conditional (1 clock)
@@ -161,38 +161,49 @@ clk_wait:
 ; r27.b2    saved byte
 ; r27.w0    return address
 mems_read_byte:
-    SET         r30, r30, CLK               ; CLK = 1 (1 clock)
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 7        ; Load MIC1 data (3 clocks)
     LBIT        r31, MIC2, r27.b2, 6        ; Load MIC2 data (3 clocks)
     LDI32       r29, CLK_DELAY-6            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
-    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
     LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
+    NOP
 
-    SET         r30, r30, CLK               ; CLK = 1 (1 clock)
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 5        ; Load MIC1 data (3 clocks)
     LBIT        r31, MIC2, r27.b2, 4        ; Load MIC2 data (3 clocks)
     LDI32       r29, CLK_DELAY-6            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
-    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
     LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
+    NOP
 
-    SET         r30, r30, CLK               ; CLK = 1 (1 clock)
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 3        ; Load MIC1 data (3 clocks)
     LBIT        r31, MIC2, r27.b2, 2        ; Load MIC2 data (3 clocks)
     LDI32       r29, CLK_DELAY-6            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
-    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
     LDI32       r29, CLK_DELAY-3            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
+    NOP
 
-    SET         r30, r30, CLK               ; CLK = 1 (1 clock)
+    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    LDI32       r29, 8                      ; Wait ? ns (7+12 instructions)
+    JAL         r28.w0, clk_wait
     LBIT        r31, MIC1, r27.b2, 1        ; Load MIC1 data (3 clocks)
     LBIT        r31, MIC2, r27.b2, 0        ; Load MIC2 data (3 clocks)
     LDI32       r29, CLK_DELAY-6            ; Call wait function (2 clocks)
     JAL         r28.w0, clk_wait
-    CLR         r30, r30, CLK               ; CLK = 0 (1 clock)
+    SET         r30, r30, CLK               ; CLK = 0 (1 clock)
 
     JMP         r27.w0                      ; Return (1 clock)
