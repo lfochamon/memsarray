@@ -1,4 +1,4 @@
-update=12/18/2015 1:13:49 PM
+update=12/19/2015 4:19:13 PM
 version=1
 last_client=kicad
 [pcbnew]
@@ -58,4 +58,4 @@ LibName26=opto
 LibName27=atmel
 LibName28=contrib
 LibName29=valves
-LibName30=mems_array
+LibName30=mems_modules

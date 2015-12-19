@@ -1,1 +1,221 @@
 EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:mems_modules
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MEMS_MIC MIC1
+U 1 1 5675C9FA
+P 2500 1450
+F 0 "MIC1" H 2650 1750 60  0000 C CNN
+F 1 "MEMS_MIC" H 2800 1150 60  0000 C CNN
+F 2 "mems_array:Mic-MEMS_Top_8_pins" H 2450 1450 60  0001 C CNN
+F 3 "" H 3150 1050 60  0000 C CNN
+	1    2500 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP1 C1
+U 1 1 5675CA9B
+P 1950 1400
+F 0 "C1" H 1975 1500 50  0000 L CNN
+F 1 "1uF" H 1975 1300 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0805" H 1950 1400 50  0001 C CNN
+F 3 "" H 1950 1400 50  0000 C CNN
+	1    1950 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L DVDD #PWR01
+U 1 1 5675CB4A
+P 2450 950
+F 0 "#PWR01" H 2450 800 50  0001 C CNN
+F 1 "DVDD" H 2450 1100 50  0000 C CNN
+F 2 "" H 2450 950 60  0000 C CNN
+F 3 "" H 2450 950 60  0000 C CNN
+	1    2450 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L DGND #PWR02
+U 1 1 5675CC0A
+P 2450 1950
+F 0 "#PWR02" H 2450 1700 50  0001 C CNN
+F 1 "DGND" H 2450 1800 50  0000 C CNN
+F 2 "" H 2450 1950 60  0000 C CNN
+F 3 "" H 2450 1950 60  0000 C CNN
+	1    2450 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2450 950  2450 1050
+Wire Wire Line
+	2450 1850 2450 1950
+$Comp
+L DVDD #PWR03
+U 1 1 5675CCCA
+P 1950 1200
+F 0 "#PWR03" H 1950 1050 50  0001 C CNN
+F 1 "DVDD" H 1950 1350 50  0000 C CNN
+F 2 "" H 1950 1200 60  0000 C CNN
+F 3 "" H 1950 1200 60  0000 C CNN
+	1    1950 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 1200 1950 1250
+$Comp
+L DGND #PWR04
+U 1 1 5675CD0B
+P 1950 1600
+F 0 "#PWR04" H 1950 1350 50  0001 C CNN
+F 1 "DGND" H 1950 1450 50  0000 C CNN
+F 2 "" H 1950 1600 60  0000 C CNN
+F 3 "" H 1950 1600 60  0000 C CNN
+	1    1950 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 1600 1950 1550
+Wire Wire Line
+	2450 1000 2850 1000
+Wire Wire Line
+	2850 1000 2850 1350
+Wire Wire Line
+	2850 1350 2800 1350
+Connection ~ 2450 1000
+Text Notes 2950 1200 0    60   ~ 0
+Data is asserted on the\nrising edge of the clock.
+Wire Wire Line
+	2800 1450 3050 1450
+Wire Wire Line
+	2800 1550 3050 1550
+Text Label 3050 1450 2    60   ~ 0
+CLK
+Text Label 3050 1550 2    60   ~ 0
+OUT
+Text Notes 1800 1500 2    60   ~ 0
+Place capacitor as close\nto mic as possible.
+$Comp
+L CONN_01X01 P1
+U 1 1 5675D1D9
+P 4650 1150
+F 0 "P1" H 4650 1250 50  0000 C CNN
+F 1 "CONN_01X01" H 5000 1150 50  0000 C CNN
+F 2 "mems_array:Castellated_Pad" H 4650 1150 50  0001 C CNN
+F 3 "" H 4650 1150 50  0000 C CNN
+	1    4650 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X01 P2
+U 1 1 5675D287
+P 4650 1350
+F 0 "P2" H 4650 1450 50  0000 C CNN
+F 1 "CONN_01X01" H 5000 1350 50  0000 C CNN
+F 2 "mems_array:Castellated_Pad" H 4650 1350 50  0001 C CNN
+F 3 "" H 4650 1350 50  0000 C CNN
+	1    4650 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X01 P3
+U 1 1 5675D2A7
+P 4650 1750
+F 0 "P3" H 4650 1850 50  0000 C CNN
+F 1 "CONN_01X01" H 5000 1750 50  0000 C CNN
+F 2 "mems_array:Castellated_Pad" H 4650 1750 50  0001 C CNN
+F 3 "" H 4650 1750 50  0000 C CNN
+	1    4650 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X01 P4
+U 1 1 5675D2CA
+P 4650 1950
+F 0 "P4" H 4650 2050 50  0000 C CNN
+F 1 "CONN_01X01" H 5000 1950 50  0000 C CNN
+F 2 "mems_array:Castellated_Pad" H 4650 1950 50  0001 C CNN
+F 3 "" H 4650 1950 50  0000 C CNN
+	1    4650 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L DVDD #PWR05
+U 1 1 5675D41F
+P 4400 1100
+F 0 "#PWR05" H 4400 950 50  0001 C CNN
+F 1 "DVDD" H 4400 1250 50  0000 C CNN
+F 2 "" H 4400 1100 60  0000 C CNN
+F 3 "" H 4400 1100 60  0000 C CNN
+	1    4400 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 1100 4400 1150
+Wire Wire Line
+	4400 1150 4450 1150
+$Comp
+L DGND #PWR06
+U 1 1 5675D44E
+P 4400 1400
+F 0 "#PWR06" H 4400 1150 50  0001 C CNN
+F 1 "DGND" H 4400 1250 50  0000 C CNN
+F 2 "" H 4400 1400 60  0000 C CNN
+F 3 "" H 4400 1400 60  0000 C CNN
+	1    4400 1400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 1350 4400 1350
+Wire Wire Line
+	4400 1350 4400 1400
+Text Label 4250 1750 0    60   ~ 0
+CLK
+Wire Wire Line
+	4450 1750 4250 1750
+Wire Wire Line
+	4450 1950 4250 1950
+Text Label 4250 1950 0    60   ~ 0
+OUT
+$EndSCHEMATC
