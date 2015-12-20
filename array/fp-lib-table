@@ -1,3 +1,3 @@
 (fp_lib_table
-  (lib (name mems_array)(type KiCad)(uri "$(KIPRJMOD)\\micarray.pretty")(options "")(descr ""))
+  (lib (name mems_array)(type KiCad)(uri "$(KIPRJMOD)\\..\\micarray.pretty")(options "")(descr ""))
 )
