@@ -76,7 +76,6 @@ NoConn ~ 10400 3850
 NoConn ~ 10400 3950
 NoConn ~ 10400 4050
 NoConn ~ 10400 4150
-NoConn ~ 10400 4250
 NoConn ~ 10400 4350
 NoConn ~ 10400 4450
 NoConn ~ 10400 4550
@@ -414,17 +413,17 @@ Text Notes 7300 6450 2    60   ~ 0
 Array interface
 Text Label 6150 3550 2    60   ~ 0
 PRU1_2
-Text Label 6150 3650 2    60   ~ 0
-PRU1_3
-Text Label 6150 3350 2    60   ~ 0
-PRU1_0
 Text Label 6150 3850 2    60   ~ 0
+PRU1_3
+Text Label 6150 3650 2    60   ~ 0
+PRU1_0
+Text Label 6150 3950 2    60   ~ 0
 PRU1_5
 Text Label 6150 4050 2    60   ~ 0
 PRU1_7
-Text Label 6150 3450 2    60   ~ 0
-PRU1_1
 Text Label 6150 3750 2    60   ~ 0
+PRU1_1
+Text Label 6150 3450 2    60   ~ 0
 PRU1_4
 $Comp
 L DGND #PWR017
@@ -472,7 +471,7 @@ F 3 "" H 7800 950 60  0000 C CNN
 $EndComp
 NoConn ~ 8550 3950
 NoConn ~ 8550 4050
-Text Label 6150 3950 2    60   ~ 0
+Text Label 6150 3350 2    60   ~ 0
 PRU1_6
 $Comp
 L 74AHC244 U101
@@ -588,11 +587,11 @@ Text Label 850  5900 0    60   ~ 0
 CLK5
 Text Label 4000 6950 2    60   ~ 0
 CLK1
-Text Label 4000 7050 2    60   ~ 0
+Text Label 4000 7650 2    60   ~ 0
 CLK2
-Text Label 4000 7150 2    60   ~ 0
+Text Label 4000 7550 2    60   ~ 0
 CLK3
-Text Label 4000 7250 2    60   ~ 0
+Text Label 4000 7450 2    60   ~ 0
 CLK4
 Text Label 4000 7350 2    60   ~ 0
 CLK5
@@ -803,12 +802,6 @@ Wire Wire Line
 Wire Wire Line
 	3700 6950 4000 6950
 Wire Wire Line
-	3700 7050 4000 7050
-Wire Wire Line
-	4000 7150 3700 7150
-Wire Wire Line
-	3700 7250 4000 7250
-Wire Wire Line
 	3700 7350 4000 7350
 Wire Wire Line
 	2150 7650 2300 7650
@@ -885,9 +878,6 @@ Wire Wire Line
 	3700 7850 4150 7850
 Wire Wire Line
 	4150 7850 4150 7800
-NoConn ~ 3700 7450
-NoConn ~ 3700 7550
-NoConn ~ 3700 7650
 $Comp
 L DVDD #PWR024
 U 1 1 567D20C1
@@ -935,14 +925,24 @@ Wire Notes Line
 	600  8550 600  6600
 Text Notes 7300 8500 2    60   ~ 0
 Array clock
-Text Label 9950 1400 0    60   ~ 0
+Text Label 9950 4250 0    60   ~ 0
 PRU0_15
-Wire Wire Line
-	9950 1400 10400 1400
 NoConn ~ 8550 1100
 NoConn ~ 8550 1200
 Text Label 9950 2800 0    60   ~ 0
 PRU1_6
 Wire Wire Line
 	10400 2800 9950 2800
+Wire Wire Line
+	3700 7450 4000 7450
+Wire Wire Line
+	4000 7650 3700 7650
+Wire Wire Line
+	3700 7550 4000 7550
+NoConn ~ 3700 7050
+NoConn ~ 3700 7150
+NoConn ~ 3700 7250
+NoConn ~ 10400 1400
+Wire Wire Line
+	10400 4250 9950 4250
 $EndSCHEMATC

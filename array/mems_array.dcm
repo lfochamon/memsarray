@@ -1,0 +1,13 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 74AHC244
+D 8 bits Bus Buffer 3 State out
+K TTL Buffer BUS 3State
+$ENDCMP
+#
+$CMP SN74CTBLV3251
+D Multiplexer 8 to 1
+K TTL MUX8
+$ENDCMP
+#
+#End Doc Library
