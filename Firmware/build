@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Build PRU0 firmwares
+## Compile to object file
+clpru -v3 --symdebug:none -c pru/mems_pru0.asm
+## Link (or in the case of a single file, assign sections to memory)
+clpru mems_pru0.obj -z bbb_pru.cmd --output_file=mems_pru0.out
+## Produce hex file from linked .out file
+hexpru bin_pru0.cmd mems_pru0.out
+
+# Build PRU1 firmwares
+## Compile to object file
+clpru -v3 --symdebug:none -c pru/mems_pru1.asm
+## Link (or in the case of a single file, assign sections to memory)
+clpru mems_pru1.obj -z bbb_pru.cmd --output_file=mems_pru1.out
+## Produce hex file from linked .out file
+hexpru bin_pru1.cmd mems_pru1.out
+
+## Remove intermediary files
+rm *.out *.obj
+
+# Build main program
+gcc pru/pru.c server/tcpServer.c main.c -o mems -lpthread -lprussdrv -O2 -Wall
